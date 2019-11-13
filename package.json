@@ -1,0 +1,19 @@
+{
+  "name": "kackac",
+  "version": "1.0.0",
+  "description": "Kak-kak games",
+  "scripts": {
+    "watch_games": "light-server -s games -w \"docs/* # # reload\"",
+    "watch_lib": "rollup -c -w",
+    "build_lib_typings": "tsc --declaration --emitDeclarationOnly --target es2015 --module commonjs --outFile docs/_bundle.d.ts src/main.ts"
+  },
+  "author": "abagames",
+  "license": "MIT",
+  "devDependencies": {
+    "light-server": "^2.6.4",
+    "rollup": "^1.26.5",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-typescript2": "^0.25.2",
+    "typescript": "^3.7.2"
+  }
+}
