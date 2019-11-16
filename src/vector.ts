@@ -13,18 +13,18 @@ export class Vector {
   x = 0;
   y = 0;
 
-  constructor(x: number | VectorLike = 0, y?: number) {
+  constructor(x?: number | VectorLike, y?: number) {
     this.set(x, y);
   }
 
-  set(x: number | VectorLike, y?: number) {
+  set(x: number | VectorLike = 0, y: number = 0) {
     if (isVectorLike(x)) {
       this.x = x.x;
       this.y = x.y;
       return this;
     }
     this.x = x;
-    this.y = y == null ? x : y;
+    this.y = y;
     return this;
   }
 
