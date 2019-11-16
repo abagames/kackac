@@ -1948,8 +1948,23 @@ w
   }
 
   function rect(x, y, width, height) {
-      context.fillStyle = "black";
-      context.fillRect(Math.floor(x), Math.floor(y), Math.floor(width), Math.floor(height));
+      return addRect(x, y, width, height);
+  }
+  function bar(x, y, length, thickness, rotate, centerPosRatio = 0.5) {
+      const t = Math.floor(clamp(thickness, 3, 10));
+      const l = new Vector(length, 0).rotate(rotate);
+      const lx = Math.abs(l.x);
+      const ly = Math.abs(l.y);
+      const rn = clamp(Math.ceil(lx > ly ? lx / t : ly / t) + 1, 3, 99);
+      const p = new Vector(x - l.x * centerPosRatio, y - l.y * centerPosRatio);
+      l.div(rn - 1);
+      let collision = 0;
+      for (let i = 0; i < rn; i++) {
+          collision |= addRect(p.x, p.y, thickness, thickness, true);
+          p.add(l);
+      }
+      concatTmpRects();
+      return collision;
   }
   let state;
   let updateFunc = {
@@ -1960,6 +1975,9 @@ w
   let terminal;
   let random = new Random();
   let ticks = 0;
+  let capitalLetterStrings = {};
+  let rects;
+  let tmpRects;
   addGameScript();
   init$5(init$6, _update$1, {
       viewSize: { x: 100, y: 100 },
@@ -1969,10 +1987,16 @@ w
   });
   function init$6() {
       sss.init();
+      showScript();
+      addCapitalVariables();
+      exports.col = window["L"];
       terminal = new Terminal({ x: 16, y: 16 });
       initInGame();
   }
   function _update$1() {
+      rects = [];
+      tmpRects = [];
+      exports.t = ticks;
       updateFunc[state]();
       ticks++;
   }
@@ -2011,7 +2035,56 @@ w
       script.setAttribute("src", `${gameName}.js`);
       document.head.appendChild(script);
   }
+  function showScript() {
+      const minifiedCode = Terser.minify(update.toString(), { mangle: false })
+          .code.slice(18, -1)
+          .replace(/(var |let |const )/g, "");
+      console.log(minifiedCode);
+      console.log(`${minifiedCode.length} letters`);
+  }
+  function addCapitalVariables() {
+      let v = 1;
+      for (let i = "A".charCodeAt(0); i <= "Z".charCodeAt(0); i++) {
+          window[String.fromCharCode(i)] = v;
+          capitalLetterStrings[v] = String.fromCharCode(i - "A".charCodeAt(0) + "a".charCodeAt(0));
+          v <<= 1;
+      }
+  }
+  function setFillStyleFromCol() {
+      const fill = capitalLetterStrings[exports.col];
+      const f = rgbObjects[colorChars.indexOf(fill)];
+      context.fillStyle = `rgb(${f.r},${f.g},${f.b})`;
+  }
+  function addRect(x, y, width, height, isAddingToTmp = false) {
+      const pos = { x: Math.floor(x - width / 2), y: Math.floor(y - height / 2) };
+      const size = { x: Math.floor(width), y: Math.floor(height) };
+      let rect = { pos, size, color: exports.col };
+      const collision = checkRects(rect);
+      (isAddingToTmp ? tmpRects : rects).push(rect);
+      setFillStyleFromCol();
+      context.fillRect(pos.x, pos.y, size.x, size.y);
+      return collision;
+  }
+  function concatTmpRects() {
+      rects = rects.concat(tmpRects);
+      tmpRects = [];
+  }
+  function checkRects(rect) {
+      let collision = 0;
+      rects.forEach(r => {
+          if (testCollision(rect, r)) {
+              collision |= r.color;
+          }
+      });
+      return collision;
+  }
+  function testCollision(r1, r2) {
+      const ox = r2.pos.x - r1.pos.x;
+      const oy = r2.pos.y - r1.pos.y;
+      return -r2.size.x < ox && ox < r1.size.x && -r2.size.y < oy && oy < r1.size.y;
+  }
 
+  exports.bar = bar;
   exports.rect = rect;
 
 }(this.window = this.window || {}));
