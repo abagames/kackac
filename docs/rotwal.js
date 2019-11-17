@@ -9,6 +9,13 @@ function description() {
 `;
 }
 
+function options() {
+  return {
+    isCapturing: false,
+    seed: 0
+  };
+}
+
 let l, r, a, m;
 
 function update() {

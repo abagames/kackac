@@ -118,6 +118,7 @@ export function play(type: number) {
 
 declare function title();
 declare function description();
+declare function options();
 declare function update();
 type State = "title" | "inGame" | "gameOver";
 let state: State;
@@ -135,20 +136,33 @@ type Rect = { pos: VectorLike; size: VectorLike; color: number };
 let rects: Rect[];
 let tmpRects: Rect[];
 let isNoTitle = true;
+let seed = 0;
 
 addGameScript();
-loop.init(init, _update, {
-  viewSize: { x: 100, y: 100 },
-  bodyBackground: "#ddd",
-  viewBackground: "#eee",
-  isUsingVirtualPad: false
-});
+window.addEventListener("load", onLoad);
+
+function onLoad() {
+  let loopOptions: any = {
+    viewSize: { x: 100, y: 100 },
+    bodyBackground: "#ddd",
+    viewBackground: "#eee",
+    isUsingVirtualPad: false
+  };
+  if (typeof options !== "undefined" && options() != null) {
+    if (options().isCapturing) {
+      loopOptions.isCapturing = true;
+    }
+    if (options().seed != null) {
+      seed = options().seed;
+    }
+  }
+  loop.init(init, _update, loopOptions);
+}
 
 function init() {
-  let seed = 0;
   if (typeof description !== "undefined" && description() != null) {
     isNoTitle = false;
-    seed = getHash(description());
+    seed += getHash(description());
   }
   if (typeof title !== "undefined" && title() != null) {
     isNoTitle = false;
@@ -211,7 +225,7 @@ function updateTitle() {
     }
     terminal.draw();
   }
-  if (ticks > 30) {
+  if (ticks === 30 || ticks == 40) {
     if (typeof description !== "undefined" && description() != null) {
       description()
         .split("\n")

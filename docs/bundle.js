@@ -1377,7 +1377,7 @@ w
       isFourWaysStick: false,
       onKeyDown: undefined
   };
-  let options;
+  let options$1;
   const isKeyPressing = range(256).map(() => false);
   const isKeyPressed = range(256).map(() => false);
   const isKeyReleased = range(256).map(() => false);
@@ -1406,11 +1406,11 @@ w
       13
   ];
   function init$2(_options) {
-      options = Object.assign(Object.assign({}, defaultOptions), _options);
+      options$1 = Object.assign(Object.assign({}, defaultOptions), _options);
       document.addEventListener("keydown", e => {
           isKeyPressing[e.keyCode] = isKeyPressed[e.keyCode] = true;
-          if (options.onKeyDown != null) {
-              options.onKeyDown();
+          if (options$1.onKeyDown != null) {
+              options$1.onKeyDown();
           }
       });
       document.addEventListener("keyup", e => {
@@ -1431,13 +1431,13 @@ w
                   stick.x += stickXys[i][0];
                   stick.y += stickXys[i][1];
                   isStickPressed[i] = true;
-                  if (options.isUsingStickKeysAsButton) {
+                  if (options$1.isUsingStickKeysAsButton) {
                       isPressed = true;
                   }
                   if (isKeyPressed[k]) {
                       isKeyPressed[k] = false;
                       isStickJustPressed[i] = true;
-                      if (options.isUsingStickKeysAsButton && !pp) {
+                      if (options$1.isUsingStickKeysAsButton && !pp) {
                           isJustPressed = true;
                       }
                   }
@@ -1445,7 +1445,7 @@ w
               if (isKeyReleased[k]) {
                   isKeyReleased[k] = false;
                   isStickJustReleased[i] = true;
-                  if (options.isUsingStickKeysAsButton && pp) {
+                  if (options$1.isUsingStickKeysAsButton && pp) {
                       isJustReleased = true;
                   }
               }
@@ -1475,8 +1475,8 @@ w
   }
   const angleOffsets = [1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1];
   function setStickAngle(a) {
-      const wayAngle = options.isFourWaysStick ? Math.PI / 2 : Math.PI / 4;
-      const angleStep = options.isFourWaysStick ? 2 : 1;
+      const wayAngle = options$1.isFourWaysStick ? Math.PI / 2 : Math.PI / 4;
+      const angleStep = options$1.isFourWaysStick ? 2 : 1;
       stickAngle = wrap(Math.round(a / wayAngle) * angleStep, 0, 8);
       stick.set(angleOffsets[stickAngle * 2], angleOffsets[stickAngle * 2 + 1]);
   }
@@ -1544,7 +1544,7 @@ w
   };
   let screen;
   let pixelSize;
-  let options$1;
+  let options$2;
   const prevPos = new Vector();
   const debugRandom = new Random();
   const debugPos = new Vector();
@@ -1556,11 +1556,11 @@ w
   let isReleased = false;
   let isResettingTargetPos = false;
   function init$3(_screen, _pixelSize, _options) {
-      options$1 = Object.assign(Object.assign({}, defaultOptions$1), _options);
+      options$2 = Object.assign(Object.assign({}, defaultOptions$1), _options);
       screen = _screen;
-      pixelSize = new Vector(_pixelSize.x + options$1.padding.x * 2, _pixelSize.y + options$1.padding.y * 2);
+      pixelSize = new Vector(_pixelSize.x + options$2.padding.x * 2, _pixelSize.y + options$2.padding.y * 2);
       targetPos.set(pixelSize.x / 2, pixelSize.y / 2);
-      if (options$1.isDebugMode) {
+      if (options$2.isDebugMode) {
           debugPos.set(pixelSize.x / 2, pixelSize.y / 2);
       }
       document.addEventListener("mousedown", e => {
@@ -1587,7 +1587,7 @@ w
   }
   function update$2() {
       calcPointerPos(cursorPos.x, cursorPos.y, pos);
-      if (options$1.isDebugMode && !pos.isInRect(0, 0, pixelSize.x, pixelSize.y)) {
+      if (options$2.isDebugMode && !pos.isInRect(0, 0, pixelSize.x, pixelSize.y)) {
           updateDebug();
           pos.set(debugPos);
           isJustPressed$1 = !isPressed$1 && debugIsDown;
@@ -1625,13 +1625,13 @@ w
           return;
       }
       v.x =
-          ((x - screen.offsetLeft) / screen.clientWidth + options$1.anchor.x) *
+          ((x - screen.offsetLeft) / screen.clientWidth + options$2.anchor.x) *
               pixelSize.x -
-              options$1.padding.x;
+              options$2.padding.x;
       v.y =
-          ((y - screen.offsetTop) / screen.clientHeight + options$1.anchor.y) *
+          ((y - screen.offsetTop) / screen.clientHeight + options$2.anchor.y) *
               pixelSize.y -
-              options$1.padding.y;
+              options$2.padding.y;
   }
   function updateDebug() {
       if (debugMoveVel.length > 0) {
@@ -1662,8 +1662,8 @@ w
       cursorPos.set(x, y);
       isDown = isClicked = true;
       isResettingTargetPos = false;
-      if (options$1.onPointerDownOrUp != null) {
-          options$1.onPointerDownOrUp();
+      if (options$2.onPointerDownOrUp != null) {
+          options$2.onPointerDownOrUp();
       }
   }
   function onMove(x, y) {
@@ -1676,8 +1676,8 @@ w
       isDown = false;
       isReleased = true;
       isResettingTargetPos = false;
-      if (options$1.onPointerDownOrUp != null) {
-          options$1.onPointerDownOrUp();
+      if (options$2.onPointerDownOrUp != null) {
+          options$2.onPointerDownOrUp();
       }
   }
 
@@ -1768,17 +1768,14 @@ w
       isFourWaysStick: false,
       isCapturing: false
   };
-  let options$2;
+  let options$3;
   let textCacheEnableTicks = 10;
   function init$5(__init, __update, _options) {
       _init = __init;
       _update = __update;
-      options$2 = Object.assign(Object.assign({}, defaultOptions$2), _options);
-      window.addEventListener("load", onLoad);
-  }
-  function onLoad() {
-      init(options$2.viewSize, options$2.bodyBackground, options$2.viewBackground, options$2.isCapturing);
-      init$4(options$2.isUsingVirtualPad, options$2.isFourWaysStick);
+      options$3 = Object.assign(Object.assign({}, defaultOptions$2), _options);
+      init(options$3.viewSize, options$3.bodyBackground, options$3.viewBackground, options$3.isCapturing);
+      init$4(options$3.isUsingVirtualPad, options$3.isFourWaysStick);
       init$1();
       _init();
       update$4();
@@ -1795,7 +1792,7 @@ w
       update$3();
       _update();
       draw();
-      if (options$2.isCapturing) {
+      if (options$3.isCapturing) {
           capture();
       }
       textCacheEnableTicks--;
@@ -2068,18 +2065,30 @@ w
   let rects;
   let tmpRects;
   let isNoTitle = true;
+  let seed = 0;
   addGameScript();
-  init$5(init$6, _update$1, {
-      viewSize: { x: 100, y: 100 },
-      bodyBackground: "#ddd",
-      viewBackground: "#eee",
-      isUsingVirtualPad: false
-  });
+  window.addEventListener("load", onLoad);
+  function onLoad() {
+      let loopOptions = {
+          viewSize: { x: 100, y: 100 },
+          bodyBackground: "#ddd",
+          viewBackground: "#eee",
+          isUsingVirtualPad: false
+      };
+      if (typeof options !== "undefined" && options() != null) {
+          if (options().isCapturing) {
+              loopOptions.isCapturing = true;
+          }
+          if (options().seed != null) {
+              seed = options().seed;
+          }
+      }
+      init$5(init$6, _update$1, loopOptions);
+  }
   function init$6() {
-      let seed = 0;
       if (typeof description !== "undefined" && description() != null) {
           isNoTitle = false;
-          seed = getHash(description());
+          seed += getHash(description());
       }
       if (typeof title !== "undefined" && title() != null) {
           isNoTitle = false;
@@ -2138,7 +2147,7 @@ w
           }
           terminal.draw();
       }
-      if (ticks > 30) {
+      if (ticks === 30 || ticks == 40) {
           if (typeof description !== "undefined" && description() != null) {
               description()
                   .split("\n")

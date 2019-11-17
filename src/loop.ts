@@ -35,10 +35,6 @@ export function init(
   _init = __init;
   _update = __update;
   options = { ...defaultOptions, ..._options };
-  window.addEventListener("load", onLoad);
-}
-
-function onLoad() {
   view.init(
     options.viewSize,
     options.bodyBackground,
