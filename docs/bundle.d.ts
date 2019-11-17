@@ -44,16 +44,21 @@ declare function map(
   v: any[] | number,
   func: (v: any, i: number) => any
 ): any[];
+
 declare function vec(x?: number | VectorLike, y?: number): Vector;
+
 declare function rnd(lowOrHigh?: number, high?: number): number;
 declare function rndi(lowOrHigh: number, high?: number): number;
 declare function rnds(): number;
+
 declare class inp {
   static p: Vector;
   static ip: boolean;
   static ijp: boolean;
   static ijr: boolean;
 }
+
+declare function play(type: number);
 
 declare interface VectorLike {
   x: number;

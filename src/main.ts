@@ -104,6 +104,10 @@ export class inp {
   static ijr = false;
 }
 
+export function play(type: number) {
+  sss.play(capitalLetterStrings[type]);
+}
+
 declare function update();
 type State = "title" | "inGame" | "gameOver";
 let state: State;

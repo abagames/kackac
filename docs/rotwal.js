@@ -20,7 +20,11 @@ function update() {
   col = R;
   const c = bar(r, l, 4, a, 0);
   if (c & B) {
+    play(C);
     r.y = 99;
+  }
+  if (c & G) {
+    play(U);
   }
   l += df;
   r.y += df;

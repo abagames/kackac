@@ -2032,6 +2032,9 @@ w
   inp.ip = false;
   inp.ijp = false;
   inp.ijr = false;
+  function play(type) {
+      sss.play(capitalLetterStrings[type]);
+  }
   let state;
   let updateFunc = {
       title: updateTitle,
@@ -2164,6 +2167,7 @@ w
   exports.inp = inp;
   exports.isInRange = isInRange;
   exports.map = map;
+  exports.play = play;
   exports.rect = rect;
   exports.rnd = rnd;
   exports.rndi = rndi;
