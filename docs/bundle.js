@@ -2067,6 +2067,7 @@ w
   let capitalLetterStrings = {};
   let rects;
   let tmpRects;
+  let isNoTitle = true;
   addGameScript();
   init$5(init$6, _update$1, {
       viewSize: { x: 100, y: 100 },
@@ -2075,13 +2076,26 @@ w
       isUsingVirtualPad: false
   });
   function init$6() {
-      sss.init();
+      let seed = 0;
+      if (typeof description !== "undefined" && description() != null) {
+          isNoTitle = false;
+          seed = getHash(description());
+      }
+      if (typeof title !== "undefined" && title() != null) {
+          isNoTitle = false;
+      }
+      sss.init(seed);
       showScript();
       addCapitalVariables();
       exports.col = window["L"];
       terminal = new Terminal({ x: 16, y: 16 });
-      initTitle();
-      //initInGame();
+      if (isNoTitle) {
+          initInGame();
+          ticks = 0;
+      }
+      else {
+          initTitle();
+      }
   }
   function _update$1() {
       rects = [];
@@ -2119,16 +2133,20 @@ w
   function updateTitle() {
       if (ticks === 0) {
           drawScore();
-          terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+          if (typeof title !== "undefined" && title() != null) {
+              terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+          }
           terminal.draw();
       }
       if (ticks > 30) {
-          description()
-              .split("\n")
-              .forEach((l, i) => {
-              terminal.print(l, 1, 7 + i);
-          });
-          terminal.draw();
+          if (typeof description !== "undefined" && description() != null) {
+              description()
+                  .split("\n")
+                  .forEach((l, i) => {
+                  terminal.print(l, 1, 7 + i);
+              });
+              terminal.draw();
+          }
       }
       if (isJustPressed$2) {
           initInGame();
@@ -2145,8 +2163,12 @@ w
       if (ticks > 20 && isJustPressed$2) {
           initInGame();
       }
-      else if (ticks === 600) {
+      else if (ticks === 500 && !isNoTitle) {
           initTitle();
+      }
+      if (ticks === 10) {
+          terminal.print("GAME OVER", 3, 7);
+          terminal.draw();
       }
   }
   function drawScore() {
@@ -2209,6 +2231,15 @@ w
       const ox = r2.pos.x - r1.pos.x;
       const oy = r2.pos.y - r1.pos.y;
       return -r2.size.x < ox && ox < r1.size.x && -r2.size.y < oy && oy < r1.size.y;
+  }
+  function getHash(v) {
+      let hash = 0;
+      for (let i = 0; i < v.length; i++) {
+          const chr = v.charCodeAt(i);
+          hash = (hash << 5) - hash + chr;
+          hash |= 0;
+      }
+      return hash;
   }
 
   exports.PI = PI;

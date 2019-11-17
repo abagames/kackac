@@ -134,6 +134,7 @@ let capitalLetterStrings: { [k: number]: string } = {};
 type Rect = { pos: VectorLike; size: VectorLike; color: number };
 let rects: Rect[];
 let tmpRects: Rect[];
+let isNoTitle = true;
 
 addGameScript();
 loop.init(init, _update, {
@@ -144,13 +145,25 @@ loop.init(init, _update, {
 });
 
 function init() {
-  sss.init();
+  let seed = 0;
+  if (typeof description !== "undefined" && description() != null) {
+    isNoTitle = false;
+    seed = getHash(description());
+  }
+  if (typeof title !== "undefined" && title() != null) {
+    isNoTitle = false;
+  }
+  sss.init(seed);
   showScript();
   addCapitalVariables();
   col = window["L"];
   terminal = new Terminal({ x: 16, y: 16 });
-  initTitle();
-  //initInGame();
+  if (isNoTitle) {
+    initInGame();
+    ticks = 0;
+  } else {
+    initTitle();
+  }
 }
 
 function _update() {
@@ -193,16 +206,20 @@ function initTitle() {
 function updateTitle() {
   if (ticks === 0) {
     drawScore();
-    terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+    if (typeof title !== "undefined" && title() != null) {
+      terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+    }
     terminal.draw();
   }
   if (ticks > 30) {
-    description()
-      .split("\n")
-      .forEach((l, i) => {
-        terminal.print(l, 1, 7 + i);
-      });
-    terminal.draw();
+    if (typeof description !== "undefined" && description() != null) {
+      description()
+        .split("\n")
+        .forEach((l, i) => {
+          terminal.print(l, 1, 7 + i);
+        });
+      terminal.draw();
+    }
   }
   if (input.isJustPressed) {
     initInGame();
@@ -220,8 +237,12 @@ function initGameOver() {
 function updateGameOver() {
   if (ticks > 20 && input.isJustPressed) {
     initInGame();
-  } else if (ticks === 600) {
+  } else if (ticks === 500 && !isNoTitle) {
     initTitle();
+  }
+  if (ticks === 10) {
+    terminal.print("GAME OVER", 3, 7);
+    terminal.draw();
   }
 }
 
@@ -301,4 +322,14 @@ function testCollision(r1: Rect, r2: Rect) {
   const ox = r2.pos.x - r1.pos.x;
   const oy = r2.pos.y - r1.pos.y;
   return -r2.size.x < ox && ox < r1.size.x && -r2.size.y < oy && oy < r1.size.y;
+}
+
+function getHash(v: string) {
+  let hash = 0;
+  for (let i = 0; i < v.length; i++) {
+    const chr = v.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0;
+  }
+  return hash;
 }
