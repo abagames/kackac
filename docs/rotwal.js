@@ -11,8 +11,6 @@ function description() {
 
 function options() {
   return {
-    isCapturing: false,
-    seed: 0,
     isPlayingBgm: true
   };
 }
@@ -24,7 +22,7 @@ function update() {
     r = vec(0, 99);
   }
   if (r.y > 98) {
-    r = vec(rndi(10, 90), 0);
+    r = vec(rnd(10, 90), 0);
     l = 0;
     a = rnd(PI * 2);
     m = rnd(-0.1, 0.1) * df;
