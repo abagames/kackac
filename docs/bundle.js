@@ -24,24 +24,27 @@
   function range(v) {
       return [...Array(v).keys()];
   }
+  function map(v, func) {
+      return typeof v === "number" ? range(v).map(func) : v.map(func);
+  }
 
   function isVectorLike(v) {
       return v.x != null && v.y != null;
   }
   class Vector {
-      constructor(x = 0, y) {
+      constructor(x, y) {
           this.x = 0;
           this.y = 0;
           this.set(x, y);
       }
-      set(x, y) {
+      set(x = 0, y = 0) {
           if (isVectorLike(x)) {
               this.x = x.x;
               this.y = x.y;
               return this;
           }
           this.x = x;
-          this.y = y == null ? x : y;
+          this.y = y;
           return this;
       }
       add(v) {
@@ -1528,6 +1531,7 @@ w
   const targetPos = new Vector();
   let isPressed$1 = false;
   let isJustPressed$1 = false;
+  let isJustReleased$1 = false;
   let defaultOptions$1 = {
       isDebugMode: false,
       anchor: new Vector(),
@@ -1583,10 +1587,12 @@ w
           updateDebug();
           pos.set(debugPos);
           isJustPressed$1 = !isPressed$1 && debugIsDown;
+          isJustReleased$1 = isPressed$1 && !debugIsDown;
           isPressed$1 = debugIsDown;
       }
       else {
           isJustPressed$1 = !isPressed$1 && isClicked;
+          isJustReleased$1 = isPressed$1 && isReleased;
           isPressed$1 = isDown;
       }
       if (isJustPressed$1) {
@@ -1668,7 +1674,9 @@ w
   }
 
   let stickAngle$1 = 0;
+  let isPressed$2 = false;
   let isJustPressed$2 = false;
+  let isJustReleased$2 = false;
   let isUsingVirtualPad;
   let isFourWaysStick;
   let centerPos = new Vector();
@@ -1684,7 +1692,7 @@ w
       });
       init$3(canvas, size, {
           onPointerDownOrUp: sss.playEmpty,
-          anchor: new Vector(0.5)
+          anchor: new Vector(0.5, 0.5)
       });
   }
   function update$3() {
@@ -1709,7 +1717,9 @@ w
               }
           }
       }
+      isPressed$2 = isPressed || isPressed$1;
       isJustPressed$2 = isJustPressed || isJustPressed$1;
+      isJustReleased$2 = isJustReleased || isJustReleased$1;
   }
   function draw() {
       if (isUsingVirtualPad && isPressed$1) {
@@ -1947,12 +1957,50 @@ w
       }
   }
 
+  const PI = Math.PI;
+  const abs = Math.abs;
+  const sin = Math.sin;
+  const cos = Math.cos;
+  const atan2 = Math.atan2;
   function rect(x, y, width, height) {
-      return addRect(x, y, width, height);
+      if (typeof x === "number") {
+          if (typeof y === "number") {
+              if (typeof width === "number") {
+                  return addRect(x, y, width, height);
+              }
+              else {
+                  return addRect(x, y, width.x, width.y);
+              }
+          }
+          else {
+              throw "invalid params";
+          }
+      }
+      else {
+          if (typeof y === "number") {
+              if (typeof width === "number") {
+                  return addRect(x.x, x.y, y, width);
+              }
+              else {
+                  throw "invalid params";
+              }
+          }
+          else {
+              return addRect(x.x, x.y, y.x, y.y);
+          }
+      }
   }
-  function bar(x, y, length, thickness, rotate, centerPosRatio = 0.5) {
+  function bar(x, y, length, thickness, rotate = 0.5, centerPosRatio = 0.5) {
+      if (typeof x !== "number") {
+          centerPosRatio = rotate;
+          rotate = thickness;
+          thickness = length;
+          length = y;
+          y = x.y;
+          x = x.x;
+      }
       const t = Math.floor(clamp(thickness, 3, 10));
-      const l = new Vector(length, 0).rotate(rotate);
+      const l = new Vector(length).rotate(rotate);
       const lx = Math.abs(l.x);
       const ly = Math.abs(l.y);
       const rn = clamp(Math.ceil(lx > ly ? lx / t : ly / t) + 1, 3, 99);
@@ -1966,6 +2014,24 @@ w
       concatTmpRects();
       return collision;
   }
+  function vec(x, y) {
+      return new Vector(x, y);
+  }
+  function rnd(lowOrHigh, high) {
+      return random.get(lowOrHigh, high);
+  }
+  function rndi(lowOrHigh, high) {
+      return random.getInt(lowOrHigh, high);
+  }
+  function rnds() {
+      return random.getPlusOrMinus();
+  }
+  class inp {
+  }
+  inp.p = new Vector();
+  inp.ip = false;
+  inp.ijp = false;
+  inp.ijr = false;
   let state;
   let updateFunc = {
       title: updateTitle,
@@ -1996,7 +2062,12 @@ w
   function _update$1() {
       rects = [];
       tmpRects = [];
-      exports.t = ticks;
+      exports.tc = ticks;
+      exports.df = ticks / 3600 + 1;
+      inp.p = pos;
+      inp.ip = isPressed$2;
+      inp.ijp = isJustPressed$2;
+      inp.ijr = isJustReleased$2;
       updateFunc[state]();
       ticks++;
   }
@@ -2084,7 +2155,21 @@ w
       return -r2.size.x < ox && ox < r1.size.x && -r2.size.y < oy && oy < r1.size.y;
   }
 
+  exports.PI = PI;
+  exports.abs = abs;
+  exports.atan2 = atan2;
   exports.bar = bar;
+  exports.clamp = clamp;
+  exports.cos = cos;
+  exports.inp = inp;
+  exports.isInRange = isInRange;
+  exports.map = map;
   exports.rect = rect;
+  exports.rnd = rnd;
+  exports.rndi = rndi;
+  exports.rnds = rnds;
+  exports.sin = sin;
+  exports.vec = vec;
+  exports.wrap = wrap;
 
 }(this.window = this.window || {}));

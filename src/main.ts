@@ -6,26 +6,67 @@ import * as input from "./input";
 import * as pointer from "./pointer";
 import { Vector, VectorLike } from "./vector";
 import { Random } from "./random";
-import { wrap, clamp } from "./math";
+import { clamp } from "./math";
 declare const sss;
 declare const Terser;
-export let col: number;
-export let t: number;
 
-export function rect(x: number, y: number, width: number, height: number) {
-  return addRect(x, y, width, height);
+export { clamp, wrap, isInRange, map } from "./math";
+export const PI = Math.PI;
+export const abs = Math.abs;
+export const sin = Math.sin;
+export const cos = Math.cos;
+export const atan2 = Math.atan2;
+export let col: number;
+export let tc: number;
+export let df: number;
+
+export function rect(
+  x: number | VectorLike,
+  y: number | VectorLike,
+  width?: number | VectorLike,
+  height?: number
+) {
+  if (typeof x === "number") {
+    if (typeof y === "number") {
+      if (typeof width === "number") {
+        return addRect(x, y, width, height);
+      } else {
+        return addRect(x, y, width.x, width.y);
+      }
+    } else {
+      throw "invalid params";
+    }
+  } else {
+    if (typeof y === "number") {
+      if (typeof width === "number") {
+        return addRect(x.x, x.y, y, width);
+      } else {
+        throw "invalid params";
+      }
+    } else {
+      return addRect(x.x, x.y, y.x, y.y);
+    }
+  }
 }
 
 export function bar(
-  x: number,
+  x: number | VectorLike,
   y: number,
   length: number,
   thickness: number,
-  rotate: number,
+  rotate = 0.5,
   centerPosRatio = 0.5
 ) {
+  if (typeof x !== "number") {
+    centerPosRatio = rotate;
+    rotate = thickness;
+    thickness = length;
+    length = y;
+    y = x.y;
+    x = x.x;
+  }
   const t = Math.floor(clamp(thickness, 3, 10));
-  const l = new Vector(length, 0).rotate(rotate);
+  const l = new Vector(length).rotate(rotate);
   const lx = Math.abs(l.x);
   const ly = Math.abs(l.y);
   const rn = clamp(Math.ceil(lx > ly ? lx / t : ly / t) + 1, 3, 99);
@@ -38,6 +79,29 @@ export function bar(
   }
   concatTmpRects();
   return collision;
+}
+
+export function vec(x?: number | VectorLike, y?: number) {
+  return new Vector(x, y);
+}
+
+export function rnd(lowOrHigh?: number, high?: number) {
+  return random.get(lowOrHigh, high);
+}
+
+export function rndi(lowOrHigh: number, high?: number) {
+  return random.getInt(lowOrHigh, high);
+}
+
+export function rnds() {
+  return random.getPlusOrMinus();
+}
+
+export class inp {
+  static p = new Vector();
+  static ip = false;
+  static ijp = false;
+  static ijr = false;
 }
 
 declare function update();
@@ -77,7 +141,12 @@ function init() {
 function _update() {
   rects = [];
   tmpRects = [];
-  t = ticks;
+  tc = ticks;
+  df = ticks / 3600 + 1;
+  inp.p = pointer.pos;
+  inp.ip = input.isPressed;
+  inp.ijp = input.isJustPressed;
+  inp.ijr = input.isJustReleased;
   updateFunc[state]();
   ticks++;
 }

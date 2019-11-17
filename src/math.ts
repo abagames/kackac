@@ -24,6 +24,10 @@ export function range(v: number) {
   return [...Array(v).keys()];
 }
 
+export function map(v: any[] | number, func: (v: any, i: number) => any) {
+  return typeof v === "number" ? range(v).map(func) : v.map(func);
+}
+
 export function stableSort(values: any[], compareFunc?: Function) {
   if (compareFunc == null) {
     compareFunc = (a, b) => a - b;

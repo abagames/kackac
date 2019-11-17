@@ -26,7 +26,7 @@ export function init(_isUsingVirtualPad = true, _isFourWaysStick = false) {
   });
   pointer.init(view.canvas, view.size, {
     onPointerDownOrUp: sss.playEmpty,
-    anchor: new Vector(0.5)
+    anchor: new Vector(0.5, 0.5)
   });
 }
 

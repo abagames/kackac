@@ -5,7 +5,7 @@
   "scripts": {
     "watch_games": "light-server -s docs -w \"docs/* # # reload\"",
     "watch_lib": "rollup -c -w",
-    "build_lib_typings": "tsc --declaration --emitDeclarationOnly --target es2015 --module commonjs --outFile docs/_bundle.d.ts src/main.ts"
+    "build_lib_typings": "tsc --declaration --emitDeclarationOnly --target es2015 --module commonjs --outFile tmp/_bundle.d.ts src/main.ts"
   },
   "author": "abagames",
   "license": "MIT",
