@@ -12,7 +12,8 @@ function description() {
 function options() {
   return {
     isCapturing: false,
-    seed: 0
+    seed: 0,
+    isPlayingBgm: true
   };
 }
 

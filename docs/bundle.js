@@ -2066,23 +2066,35 @@ w
   let tmpRects;
   let isNoTitle = true;
   let seed = 0;
+  const defaultOptions$3 = {
+      seed: 0,
+      isCapturing: false,
+      viewSize: { x: 100, y: 100 },
+      isPlayingBgm: false
+  };
+  let loopOptions;
+  let terminalSize;
+  let isPlayingBgm;
   addGameScript();
   window.addEventListener("load", onLoad);
   function onLoad() {
-      let loopOptions = {
+      loopOptions = {
           viewSize: { x: 100, y: 100 },
           bodyBackground: "#ddd",
           viewBackground: "#eee",
           isUsingVirtualPad: false
       };
+      let opts;
       if (typeof options !== "undefined" && options() != null) {
-          if (options().isCapturing) {
-              loopOptions.isCapturing = true;
-          }
-          if (options().seed != null) {
-              seed = options().seed;
-          }
+          opts = Object.assign(Object.assign({}, defaultOptions$3), options());
       }
+      else {
+          opts = defaultOptions$3;
+      }
+      seed = opts.seed;
+      loopOptions.isCapturing = opts.isCapturing;
+      loopOptions.viewSize = opts.viewSize;
+      isPlayingBgm = opts.isPlayingBgm;
       init$5(init$6, _update$1, loopOptions);
   }
   function init$6() {
@@ -2097,7 +2109,9 @@ w
       showScript();
       addCapitalVariables();
       exports.col = window["L"];
-      terminal = new Terminal({ x: 16, y: 16 });
+      const sz = loopOptions.viewSize;
+      terminalSize = { x: Math.floor(sz.x / 6), y: Math.floor(sz.y / 6) };
+      terminal = new Terminal(terminalSize);
       if (isNoTitle) {
           initInGame();
           ticks = 0;
@@ -2121,10 +2135,14 @@ w
   function initInGame() {
       state = "inGame";
       ticks = -1;
-      if (exports.scr > hiScore) {
-          hiScore = exports.scr;
+      const s = Math.floor(exports.scr);
+      if (s > hiScore) {
+          hiScore = s;
       }
       exports.scr = 0;
+      if (isPlayingBgm) {
+          sss.playBgm();
+      }
   }
   function updateInGame() {
       terminal.clear();
@@ -2143,16 +2161,25 @@ w
       if (ticks === 0) {
           drawScore();
           if (typeof title !== "undefined" && title() != null) {
-              terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+              terminal.print(title(), Math.floor(terminalSize.x - title().length) / 2, 3);
           }
           terminal.draw();
       }
       if (ticks === 30 || ticks == 40) {
           if (typeof description !== "undefined" && description() != null) {
+              let maxLineLength = 0;
+              description()
+                  .split("\n")
+                  .forEach(l => {
+                  if (l.length > maxLineLength) {
+                      maxLineLength = l.length;
+                  }
+              });
+              const x = Math.floor((terminalSize.x - maxLineLength) / 2);
               description()
                   .split("\n")
                   .forEach((l, i) => {
-                  terminal.print(l, 1, 7 + i);
+                  terminal.print(l, x, Math.floor(terminalSize.y / 2) + i);
               });
               terminal.draw();
           }
@@ -2165,8 +2192,10 @@ w
       state = "gameOver";
       clearJustPressed$2();
       ticks = -1;
-      terminal.print("GAME OVER", 3, 7);
-      terminal.draw();
+      drawGameOver();
+      if (isPlayingBgm) {
+          sss.stopBgm();
+      }
   }
   function updateGameOver() {
       if (ticks > 20 && isJustPressed$2) {
@@ -2176,14 +2205,17 @@ w
           initTitle();
       }
       if (ticks === 10) {
-          terminal.print("GAME OVER", 3, 7);
-          terminal.draw();
+          drawGameOver();
       }
   }
+  function drawGameOver() {
+      terminal.print("GAME OVER", Math.floor((terminalSize.x - 9) / 2), Math.floor(terminalSize.y / 2));
+      terminal.draw();
+  }
   function drawScore() {
-      terminal.print(`${exports.scr}`, 0, 0);
+      terminal.print(`${Math.floor(exports.scr)}`, 0, 0);
       const hs = `HI ${hiScore}`;
-      terminal.print(hs, 16 - hs.length, 0);
+      terminal.print(hs, terminalSize.x - hs.length, 0);
   }
   function addGameScript() {
       let gameName = window.location.search.substring(1);

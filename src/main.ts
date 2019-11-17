@@ -137,25 +137,36 @@ let rects: Rect[];
 let tmpRects: Rect[];
 let isNoTitle = true;
 let seed = 0;
+const defaultOptions = {
+  seed: 0,
+  isCapturing: false,
+  viewSize: { x: 100, y: 100 },
+  isPlayingBgm: false
+};
+let loopOptions;
+let terminalSize: VectorLike;
+let isPlayingBgm: boolean;
 
 addGameScript();
 window.addEventListener("load", onLoad);
 
 function onLoad() {
-  let loopOptions: any = {
+  loopOptions = {
     viewSize: { x: 100, y: 100 },
     bodyBackground: "#ddd",
     viewBackground: "#eee",
     isUsingVirtualPad: false
   };
+  let opts;
   if (typeof options !== "undefined" && options() != null) {
-    if (options().isCapturing) {
-      loopOptions.isCapturing = true;
-    }
-    if (options().seed != null) {
-      seed = options().seed;
-    }
+    opts = { ...defaultOptions, ...options() };
+  } else {
+    opts = defaultOptions;
   }
+  seed = opts.seed;
+  loopOptions.isCapturing = opts.isCapturing;
+  loopOptions.viewSize = opts.viewSize;
+  isPlayingBgm = opts.isPlayingBgm;
   loop.init(init, _update, loopOptions);
 }
 
@@ -171,7 +182,9 @@ function init() {
   showScript();
   addCapitalVariables();
   col = window["L"];
-  terminal = new Terminal({ x: 16, y: 16 });
+  const sz = loopOptions.viewSize;
+  terminalSize = { x: Math.floor(sz.x / 6), y: Math.floor(sz.y / 6) };
+  terminal = new Terminal(terminalSize);
   if (isNoTitle) {
     initInGame();
     ticks = 0;
@@ -196,10 +209,14 @@ function _update() {
 function initInGame() {
   state = "inGame";
   ticks = -1;
-  if (scr > hiScore) {
-    hiScore = scr;
+  const s = Math.floor(scr);
+  if (s > hiScore) {
+    hiScore = s;
   }
   scr = 0;
+  if (isPlayingBgm) {
+    sss.playBgm();
+  }
 }
 
 function updateInGame() {
@@ -221,16 +238,29 @@ function updateTitle() {
   if (ticks === 0) {
     drawScore();
     if (typeof title !== "undefined" && title() != null) {
-      terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+      terminal.print(
+        title(),
+        Math.floor(terminalSize.x - title().length) / 2,
+        3
+      );
     }
     terminal.draw();
   }
   if (ticks === 30 || ticks == 40) {
     if (typeof description !== "undefined" && description() != null) {
+      let maxLineLength = 0;
+      description()
+        .split("\n")
+        .forEach(l => {
+          if (l.length > maxLineLength) {
+            maxLineLength = l.length;
+          }
+        });
+      const x = Math.floor((terminalSize.x - maxLineLength) / 2);
       description()
         .split("\n")
         .forEach((l, i) => {
-          terminal.print(l, 1, 7 + i);
+          terminal.print(l, x, Math.floor(terminalSize.y / 2) + i);
         });
       terminal.draw();
     }
@@ -244,8 +274,10 @@ function initGameOver() {
   state = "gameOver";
   input.clearJustPressed();
   ticks = -1;
-  terminal.print("GAME OVER", 3, 7);
-  terminal.draw();
+  drawGameOver();
+  if (isPlayingBgm) {
+    sss.stopBgm();
+  }
 }
 
 function updateGameOver() {
@@ -255,15 +287,23 @@ function updateGameOver() {
     initTitle();
   }
   if (ticks === 10) {
-    terminal.print("GAME OVER", 3, 7);
-    terminal.draw();
+    drawGameOver();
   }
 }
 
+function drawGameOver() {
+  terminal.print(
+    "GAME OVER",
+    Math.floor((terminalSize.x - 9) / 2),
+    Math.floor(terminalSize.y / 2)
+  );
+  terminal.draw();
+}
+
 function drawScore() {
-  terminal.print(`${scr}`, 0, 0);
+  terminal.print(`${Math.floor(scr)}`, 0, 0);
   const hs = `HI ${hiScore}`;
-  terminal.print(hs, 16 - hs.length, 0);
+  terminal.print(hs, terminalSize.x - hs.length, 0);
 }
 
 function addGameScript() {

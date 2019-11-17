@@ -28,11 +28,8 @@ declare function rect(
   width: number,
   height: number
 ): number;
-
 declare function rect(x: number, y: number, size: VectorLike): number;
-
 declare function rect(pos: VectorLike, width: number, height: number): number;
-
 declare function rect(pos: VectorLike, size: VectorLike): number;
 
 declare function bar(
@@ -43,7 +40,6 @@ declare function bar(
   rotate: number,
   centerPosRatio?: number
 ): number;
-
 declare function bar(
   pos: VectorLike,
   length: number,
