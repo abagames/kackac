@@ -225,7 +225,7 @@ export function getCharOption(
   sg?: string
 ) {
   let options: CharOptions = {
-    color: "w",
+    color: "l",
     backgroundColor: "t",
     angleIndex: 0,
     isMirrorX: false,

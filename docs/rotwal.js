@@ -1,3 +1,14 @@
+function title() {
+  return "ROTWAL";
+}
+
+function description() {
+  return `
+[Mouse/Touch]
+ Rotate wall
+`;
+}
+
 let l, r, a, m;
 
 function update() {
@@ -22,9 +33,11 @@ function update() {
   if (c & B) {
     play(C);
     r.y = 99;
+    scr++;
   }
   if (c & G) {
     play(U);
+    end();
   }
   l += df;
   r.y += df;

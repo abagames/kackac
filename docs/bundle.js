@@ -1237,7 +1237,7 @@ w
   }
   function getCharOption(cg, bg, rg, sg) {
       let options = {
-          color: "w",
+          color: "l",
           backgroundColor: "t",
           angleIndex: 0,
           isMirrorX: false,
@@ -1480,6 +1480,10 @@ w
       stickAngle = wrap(Math.round(a / wayAngle) * angleStep, 0, 8);
       stick.set(angleOffsets[stickAngle * 2], angleOffsets[stickAngle * 2 + 1]);
   }
+  function clearJustPressed() {
+      isJustPressed = false;
+      isPressed = true;
+  }
 
   class Random {
       constructor(seed = null) {
@@ -1608,6 +1612,10 @@ w
           targetPos.add(move);
       }
       isClicked = isReleased = false;
+  }
+  function clearJustPressed$1() {
+      isJustPressed$1 = false;
+      isPressed$1 = true;
   }
   function setTargetPos(v) {
       targetPos.set(v);
@@ -1743,6 +1751,10 @@ w
               alpha: 0.5
           });
       }
+  }
+  function clearJustPressed$2() {
+      clearJustPressed();
+      clearJustPressed$1();
   }
 
   let lastFrameTime = 0;
@@ -1962,6 +1974,13 @@ w
   const sin = Math.sin;
   const cos = Math.cos;
   const atan2 = Math.atan2;
+  const floor = Math.floor;
+  const round = Math.round;
+  const ceil = Math.ceil;
+  exports.scr = 0;
+  function end() {
+      initGameOver();
+  }
   function rect(x, y, width, height) {
       if (typeof x === "number") {
           if (typeof y === "number") {
@@ -2044,6 +2063,7 @@ w
   let terminal;
   let random = new Random();
   let ticks = 0;
+  let hiScore = 0;
   let capitalLetterStrings = {};
   let rects;
   let tmpRects;
@@ -2060,7 +2080,8 @@ w
       addCapitalVariables();
       exports.col = window["L"];
       terminal = new Terminal({ x: 16, y: 16 });
-      initInGame();
+      initTitle();
+      //initInGame();
   }
   function _update$1() {
       rects = [];
@@ -2076,30 +2097,62 @@ w
   }
   function initInGame() {
       state = "inGame";
-      ticks = 0;
+      ticks = -1;
+      if (exports.scr > hiScore) {
+          hiScore = exports.scr;
+      }
+      exports.scr = 0;
   }
   function updateInGame() {
       terminal.clear();
       clear();
       update();
+      drawScore();
       terminal.draw();
   }
   function initTitle() {
       state = "title";
-      ticks = 0;
+      ticks = -1;
+      terminal.clear();
+      clear();
   }
   function updateTitle() {
+      if (ticks === 0) {
+          drawScore();
+          terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+          terminal.draw();
+      }
+      if (ticks > 30) {
+          description()
+              .split("\n")
+              .forEach((l, i) => {
+              terminal.print(l, 1, 7 + i);
+          });
+          terminal.draw();
+      }
       if (isJustPressed$2) {
           initInGame();
       }
+  }
+  function initGameOver() {
+      state = "gameOver";
+      clearJustPressed$2();
+      ticks = -1;
+      terminal.print("GAME OVER", 3, 7);
+      terminal.draw();
   }
   function updateGameOver() {
       if (ticks > 20 && isJustPressed$2) {
           initInGame();
       }
-      else if (ticks > 300) {
+      else if (ticks === 600) {
           initTitle();
       }
+  }
+  function drawScore() {
+      terminal.print(`${exports.scr}`, 0, 0);
+      const hs = `HI ${hiScore}`;
+      terminal.print(hs, 16 - hs.length, 0);
   }
   function addGameScript() {
       let gameName = window.location.search.substring(1);
@@ -2162,8 +2215,11 @@ w
   exports.abs = abs;
   exports.atan2 = atan2;
   exports.bar = bar;
+  exports.ceil = ceil;
   exports.clamp = clamp;
   exports.cos = cos;
+  exports.end = end;
+  exports.floor = floor;
   exports.inp = inp;
   exports.isInRange = isInRange;
   exports.map = map;
@@ -2172,6 +2228,7 @@ w
   exports.rnd = rnd;
   exports.rndi = rndi;
   exports.rnds = rnds;
+  exports.round = round;
   exports.sin = sin;
   exports.vec = vec;
   exports.wrap = wrap;

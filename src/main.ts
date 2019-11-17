@@ -16,9 +16,17 @@ export const abs = Math.abs;
 export const sin = Math.sin;
 export const cos = Math.cos;
 export const atan2 = Math.atan2;
+export const floor = Math.floor;
+export const round = Math.round;
+export const ceil = Math.ceil;
 export let col: number;
 export let tc: number;
 export let df: number;
+export let scr = 0;
+
+export function end() {
+  initGameOver();
+}
 
 export function rect(
   x: number | VectorLike,
@@ -108,6 +116,8 @@ export function play(type: number) {
   sss.play(capitalLetterStrings[type]);
 }
 
+declare function title();
+declare function description();
 declare function update();
 type State = "title" | "inGame" | "gameOver";
 let state: State;
@@ -119,7 +129,7 @@ let updateFunc = {
 let terminal: Terminal;
 let random = new Random();
 let ticks = 0;
-let score = 0;
+let hiScore = 0;
 let capitalLetterStrings: { [k: number]: string } = {};
 type Rect = { pos: VectorLike; size: VectorLike; color: number };
 let rects: Rect[];
@@ -139,7 +149,8 @@ function init() {
   addCapitalVariables();
   col = window["L"];
   terminal = new Terminal({ x: 16, y: 16 });
-  initInGame();
+  initTitle();
+  //initInGame();
 }
 
 function _update() {
@@ -157,23 +168,42 @@ function _update() {
 
 function initInGame() {
   state = "inGame";
-  ticks = 0;
-  score = 0;
+  ticks = -1;
+  if (scr > hiScore) {
+    hiScore = scr;
+  }
+  scr = 0;
 }
 
 function updateInGame() {
   terminal.clear();
   view.clear();
   update();
+  drawScore();
   terminal.draw();
 }
 
 function initTitle() {
   state = "title";
-  ticks = 0;
+  ticks = -1;
+  terminal.clear();
+  view.clear();
 }
 
 function updateTitle() {
+  if (ticks === 0) {
+    drawScore();
+    terminal.print(title(), Math.floor(16 - title().length) / 2, 3);
+    terminal.draw();
+  }
+  if (ticks > 30) {
+    description()
+      .split("\n")
+      .forEach((l, i) => {
+        terminal.print(l, 1, 7 + i);
+      });
+    terminal.draw();
+  }
   if (input.isJustPressed) {
     initInGame();
   }
@@ -182,15 +212,23 @@ function updateTitle() {
 function initGameOver() {
   state = "gameOver";
   input.clearJustPressed();
-  ticks = 0;
+  ticks = -1;
+  terminal.print("GAME OVER", 3, 7);
+  terminal.draw();
 }
 
 function updateGameOver() {
   if (ticks > 20 && input.isJustPressed) {
     initInGame();
-  } else if (ticks > 300) {
+  } else if (ticks === 600) {
     initTitle();
   }
+}
+
+function drawScore() {
+  terminal.print(`${scr}`, 0, 0);
+  const hs = `HI ${hiScore}`;
+  terminal.print(hs, 16 - hs.length, 0);
 }
 
 function addGameScript() {

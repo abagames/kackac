@@ -1,6 +1,26 @@
 declare let col: number;
 declare let tc: number;
 declare let df: number;
+declare let scr: number;
+
+declare const PI: number;
+declare const abs: (x: number) => number;
+declare const sin: (x: number) => number;
+declare const cos: (x: number) => number;
+declare const atan2: (y: number, x: number) => number;
+declare const floor: (x: number) => number;
+declare const round: (x: number) => number;
+declare const ceil: (x: number) => number;
+
+declare function clamp(v: number, low?: number, high?: number): number;
+declare function wrap(v: number, low: number, high: number): number;
+declare function isInRange(v: number, low: number, high: number): boolean;
+declare function map(
+  v: any[] | number,
+  func: (v: any, i: number) => any
+): any[];
+
+declare function end(): void;
 
 declare function rect(
   x: number,
@@ -31,19 +51,6 @@ declare function bar(
   rotate: number,
   centerPosRatio?: number
 ): number;
-
-declare const PI: number;
-declare const abs: (x: number) => number;
-declare const sin: (x: number) => number;
-declare const cos: (x: number) => number;
-declare const atan2: (y: number, x: number) => number;
-declare function clamp(v: number, low?: number, high?: number): number;
-declare function wrap(v: number, low: number, high: number): number;
-declare function isInRange(v: number, low: number, high: number): boolean;
-declare function map(
-  v: any[] | number,
-  func: (v: any, i: number) => any
-): any[];
 
 declare function vec(x?: number | VectorLike, y?: number): Vector;
 
