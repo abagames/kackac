@@ -24,7 +24,7 @@ export function range(v: number) {
   return [...Array(v).keys()];
 }
 
-export function map(v: any[] | number, func: (v: any, i: number) => any) {
+export function map(v: any[] | number, func: (v?: any, i?: number) => any) {
   return typeof v === "number" ? range(v).map(func) : v.map(func);
 }
 
