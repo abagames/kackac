@@ -3,6 +3,5 @@
     "target": "es2015",
     "checkJs": true
   },
-  "include": ["*.js", "bundle.d.ts"],
-  "exclude": ["bundle.js"]
+  "include": ["*.js", "../bundle.d.ts"]
 }

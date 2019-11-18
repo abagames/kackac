@@ -1975,36 +1975,20 @@ w
   const round = Math.round;
   const ceil = Math.ceil;
   exports.scr = 0;
+  const defaultOptions$3 = {
+      seed: 0,
+      isCapturing: false,
+      viewSize: { x: 100, y: 100 },
+      isPlayingBgm: false
+  };
   function end() {
       initGameOver();
   }
   function rect(x, y, width, height) {
-      if (typeof x === "number") {
-          if (typeof y === "number") {
-              if (typeof width === "number") {
-                  return addRect(x, y, width, height);
-              }
-              else {
-                  return addRect(x, y, width.x, width.y);
-              }
-          }
-          else {
-              throw "invalid params";
-          }
-      }
-      else {
-          if (typeof y === "number") {
-              if (typeof width === "number") {
-                  return addRect(x.x, x.y, y, width);
-              }
-              else {
-                  throw "invalid params";
-              }
-          }
-          else {
-              return addRect(x.x, x.y, y.x, y.y);
-          }
-      }
+      return drawRect(false, x, y, width, height);
+  }
+  function box(x, y, width, height) {
+      return drawRect(true, x, y, width, height);
   }
   function bar(x, y, length, thickness, rotate = 0.5, centerPosRatio = 0.5) {
       if (typeof x !== "number") {
@@ -2024,7 +2008,7 @@ w
       l.div(rn - 1);
       let collision = 0;
       for (let i = 0; i < rn; i++) {
-          collision |= addRect(p.x, p.y, thickness, thickness, true);
+          collision |= addRect(true, p.x, p.y, thickness, thickness, true);
           p.add(l);
       }
       concatTmpRects();
@@ -2066,12 +2050,6 @@ w
   let tmpRects;
   let isNoTitle = true;
   let seed = 0;
-  const defaultOptions$3 = {
-      seed: 0,
-      isCapturing: false,
-      viewSize: { x: 100, y: 100 },
-      isPlayingBgm: false
-  };
   let loopOptions;
   let terminalSize;
   let isPlayingBgm;
@@ -2222,14 +2200,16 @@ w
       gameName = gameName.replace(/\W/g, "");
       document.title = gameName;
       const script = document.createElement("script");
-      script.setAttribute("src", `${gameName}.js`);
+      script.setAttribute("src", `${gameName}/main.js`);
       document.head.appendChild(script);
   }
   function showScript() {
       const minifiedCode = Terser.minify(update.toString(), { mangle: false })
           .code.slice(18, -1)
           .replace(/(var |let |const )/g, "");
-      console.log(minifiedCode);
+      minifiedCode.match(/(.{1,256})/g).map(c => {
+          console.log(c);
+      });
       console.log(`${minifiedCode.length} letters`);
   }
   function addCapitalVariables() {
@@ -2245,8 +2225,38 @@ w
       const f = rgbObjects[colorChars.indexOf(fill)];
       context.fillStyle = `rgb(${f.r},${f.g},${f.b})`;
   }
-  function addRect(x, y, width, height, isAddingToTmp = false) {
-      const pos = { x: Math.floor(x - width / 2), y: Math.floor(y - height / 2) };
+  function drawRect(isAlignCenter, x, y, width, height) {
+      if (typeof x === "number") {
+          if (typeof y === "number") {
+              if (typeof width === "number") {
+                  return addRect(isAlignCenter, x, y, width, height);
+              }
+              else {
+                  return addRect(isAlignCenter, x, y, width.x, width.y);
+              }
+          }
+          else {
+              throw "invalid params";
+          }
+      }
+      else {
+          if (typeof y === "number") {
+              if (typeof width === "number") {
+                  return addRect(isAlignCenter, x.x, x.y, y, width);
+              }
+              else {
+                  throw "invalid params";
+              }
+          }
+          else {
+              return addRect(isAlignCenter, x.x, x.y, y.x, y.y);
+          }
+      }
+  }
+  function addRect(isAlignCenter, x, y, width, height, isAddingToTmp = false) {
+      let pos = isAlignCenter
+          ? { x: Math.floor(x - width / 2), y: Math.floor(y - height / 2) }
+          : { x: Math.floor(x), y: Math.floor(y) };
       const size = { x: Math.floor(width), y: Math.floor(height) };
       let rect = { pos, size, color: exports.col };
       const collision = checkRects(rect);
@@ -2287,6 +2297,7 @@ w
   exports.abs = abs;
   exports.atan2 = atan2;
   exports.bar = bar;
+  exports.box = box;
   exports.ceil = ceil;
   exports.clamp = clamp;
   exports.cos = cos;

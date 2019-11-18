@@ -32,6 +32,16 @@ declare function rect(x: number, y: number, size: VectorLike): number;
 declare function rect(pos: VectorLike, width: number, height: number): number;
 declare function rect(pos: VectorLike, size: VectorLike): number;
 
+declare function box(
+  x: number,
+  y: number,
+  width: number,
+  height: number
+): number;
+declare function box(x: number, y: number, size: VectorLike): number;
+declare function box(pos: VectorLike, width: number, height: number): number;
+declare function box(pos: VectorLike, size: VectorLike): number;
+
 declare function bar(
   x: number,
   y: number,

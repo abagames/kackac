@@ -15,23 +15,21 @@ function options() {
   };
 }
 
-let l, r, a, m;
+let r, l, a, m, p, b;
 
 function update() {
   if (!tc) {
     r = vec(0, 99);
   }
   if (r.y > 98) {
-    r = vec(rnd(10, 90), 0);
+    r = vec(rnd(9, 90));
     l = 0;
     a = rnd(PI * 2);
     m = rnd(-0.1, 0.1) * df;
   }
   col = G;
-  const p = vec(50, 70);
-  rect(p, 7, 7);
-  const b = p.getAngle(inp.p);
-  p.addAngle(b, 15);
+  box((p = vec(50, 70)), 7, 7);
+  p.addAngle((b = p.getAngle(inp.p)), 15);
   col = B;
   bar(p, 9, 5, b + PI / 2);
   col = R;
