@@ -60,6 +60,32 @@ declare function bar(
   centerPosRatio?: number
 ): number;
 
+// Draw line
+declare function line(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  thickness?: number
+): number;
+declare function line(
+  x1: number,
+  y1: number,
+  p2: VectorLike,
+  thickness?: number
+): number;
+declare function line(
+  p1: VectorLike,
+  x2: number,
+  y2: number,
+  thickness?: number
+): number;
+declare function line(
+  p1: VectorLike,
+  p2: VectorLike,
+  thickness?: number
+): number;
+
 // Return Vector
 declare function vec(x?: number | VectorLike, y?: number): Vector;
 

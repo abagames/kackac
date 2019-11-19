@@ -58,7 +58,7 @@ color: #888;
     captureCanvas.width = size.x > cw ? size.x : cw;
     captureCanvas.height = size.y;
     captureContext = captureCanvas.getContext("2d");
-    captureContext.fillStyle = "black";
+    captureContext.fillStyle = _bodyBackground;
     gcc.setOptions({ scale: 2, capturingFps: 60 });
   }
 }

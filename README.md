@@ -23,3 +23,11 @@ tc||(p=vec(50,85),j=a=h=i=0),h+i<=0&&(h=199,i=rnd(9,99)),col=B,rect(0,90,h,9),re
 ```
 otate(a)));s=.1*clamp(p.x-50,0,99)+df;p.x-=s,h-=s,scr+=s
 ```
+
+[3arms](https://abagames.github.io/kackac/index.html?3arms)
+
+[![3arms screenshot](docs/3arms/screenshot.gif)](https://abagames.github.io/kackac/index.html?3arms)
+
+```
+r=.01;tc||(a=map(3,_=>[-PI/2,0,rnd(-r,r)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<r&&(b[2]=rnd(-r,r)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
+```

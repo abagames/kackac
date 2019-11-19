@@ -69,20 +69,53 @@ export function bar(
     y = x.y;
     x = x.x;
   }
-  const t = Math.floor(clamp(thickness, 3, 10));
   const l = new Vector(length).rotate(rotate);
-  const lx = Math.abs(l.x);
-  const ly = Math.abs(l.y);
-  const rn = clamp(Math.ceil(lx > ly ? lx / t : ly / t) + 1, 3, 99);
   const p = new Vector(x - l.x * centerPosRatio, y - l.y * centerPosRatio);
-  l.div(rn - 1);
-  let collision = 0;
-  for (let i = 0; i < rn; i++) {
-    collision |= addRect(true, p.x, p.y, thickness, thickness, true);
-    p.add(l);
+  return drawLine(p, l, thickness);
+}
+
+export function line(
+  x1: number | VectorLike,
+  y1: number | VectorLike,
+  x2: number | VectorLike = 3,
+  y2: number = 3,
+  thickness: number = 3
+) {
+  const p = new Vector();
+  const p2 = new Vector();
+  if (typeof x1 === "number") {
+    if (typeof y1 === "number") {
+      if (typeof x2 === "number") {
+        p.set(x1, y1);
+        p2.set(x2, y2);
+      } else {
+        p.set(x1, y1);
+        p2.set(x2);
+        thickness = y1;
+      }
+    } else {
+      throw "invalid params";
+    }
+  } else {
+    if (typeof y1 === "number") {
+      if (typeof x2 === "number") {
+        p.set(x1);
+        p2.set(y1, x2);
+        thickness = y2;
+      } else {
+        throw "invalid params";
+      }
+    } else {
+      if (typeof x2 === "number") {
+        p.set(x1);
+        p2.set(y1);
+        thickness = x2;
+      } else {
+        throw "invalid params";
+      }
+    }
   }
-  concatTmpRects();
-  return collision;
+  return drawLine(p, p2.sub(p), thickness);
 }
 
 export function vec(x?: number | VectorLike, y?: number) {
@@ -167,6 +200,7 @@ function init() {
   }
   if (typeof title !== "undefined" && title() != null) {
     isNoTitle = false;
+    document.title = title();
   }
   sss.init(seed);
   showScript();
@@ -360,6 +394,21 @@ function drawRect(
       return addRect(isAlignCenter, x.x, x.y, y.x, y.y);
     }
   }
+}
+
+function drawLine(p: Vector, l: Vector, thickness: number) {
+  const t = Math.floor(clamp(thickness, 3, 10));
+  const lx = Math.abs(l.x);
+  const ly = Math.abs(l.y);
+  const rn = clamp(Math.ceil(lx > ly ? lx / t : ly / t) + 1, 3, 99);
+  l.div(rn - 1);
+  let collision = 0;
+  for (let i = 0; i < rn; i++) {
+    collision |= addRect(true, p.x, p.y, thickness, thickness, true);
+    p.add(l);
+  }
+  concatTmpRects();
+  return collision;
 }
 
 function addRect(
