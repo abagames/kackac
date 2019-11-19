@@ -2231,7 +2231,9 @@ w
   function addGameScript() {
       let gameName = window.location.search.substring(1);
       gameName = gameName.replace(/\W/g, "");
-      document.title = gameName;
+      if (gameName.length === 0) {
+          return;
+      }
       const script = document.createElement("script");
       script.setAttribute("src", `${gameName}/main.js`);
       document.head.appendChild(script);
