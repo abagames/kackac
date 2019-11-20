@@ -16,9 +16,7 @@ declare const ceil: (v: number) => number;
 
 declare function clamp(v: number, low?: number, high?: number): number;
 declare function wrap(v: number, low: number, high: number): number;
-declare function isInRange(v: number, low: number, high: number): boolean;
-declare function map(v: any[], func: (v?: any, i?: number) => any): any[];
-declare function map(v: number, func: (i?: number) => any): any[];
+declare function range(v: number): number[];
 
 // End game
 declare function end(): void;

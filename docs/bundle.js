@@ -24,9 +24,6 @@
   function range(v) {
       return [...Array(v).keys()];
   }
-  function map(v, func) {
-      return typeof v === "number" ? range(v).map(func) : v.map(func);
-  }
 
   function isVectorLike(v) {
       return v.x != null && v.y != null;
@@ -2359,11 +2356,10 @@ w
   exports.end = end;
   exports.floor = floor;
   exports.inp = inp;
-  exports.isInRange = isInRange;
   exports.line = line;
-  exports.map = map;
   exports.play = play;
   exports.pow = pow;
+  exports.range = range;
   exports.rect = rect;
   exports.rnd = rnd;
   exports.rndi = rndi;

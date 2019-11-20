@@ -10,7 +10,7 @@ import { clamp } from "./math";
 declare const sss;
 declare const Terser;
 
-export { clamp, wrap, isInRange, map } from "./math";
+export { clamp, wrap, range } from "./math";
 export const PI = Math.PI;
 export const abs = Math.abs;
 export const sin = Math.sin;

@@ -25,7 +25,7 @@ tc||(p=vec(50,85),j=a=h=i=0),h+i<=0&&(h=199,i=rnd(9,99)),col=B,rect(0,90,h,9),re
 [![3arms screenshot](docs/3arms/screenshot.gif)](https://abagames.github.io/kackac/index.html?3arms)
 
 ```
-tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
+tc||(a=range(3).map(_=>[-PI/2,0,rnds(.01)]),x=50),a.map((b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
 ```
 
 [balbou](https://abagames.github.io/kackac/index.html?balbou)
@@ -33,7 +33,7 @@ tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,5
 [![balbou screenshot](docs/balbou/screenshot.gif)](https://abagames.github.io/kackac/index.html?balbou)
 
 ```
-tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
+tc||(b=[]),tc%222==0&&b.push({p:vec(50,10),v:vec(rnds(.5),0)}),col=G,box(x=inp.p.x,90,20,10),col=P,b=b.filter(c=>{p=c.p,v=c.v;return p.add(v),v.y+=.02*df,v.mul(.99),box(p,5,5)&G&&(v.y=-2*sqrt(df),v.x+=.05*(p.x-x),scr+=pow(b.length,2),play(C)),p.y>99&&(play(U),end()),p.x>0&&p.x<99})
 ```
 
 [jujmp](https://abagames.github.io/kackac/index.html?jujmp)

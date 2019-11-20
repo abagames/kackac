@@ -28,7 +28,7 @@ function update() {
   col = G;
   box((x = inp.p.x), 90, 20, 10);
   col = P;
-  map(b, (c, i) => {
+  b = b.filter(c => {
     const p = c.p;
     const v = c.v;
     p.add(v);
@@ -40,12 +40,10 @@ function update() {
       scr += pow(b.length, 2);
       play(C);
     }
-    if (p.x < 0 || p.x > 99) {
-      b.splice(i, 1);
-    }
     if (p.y > 99) {
       play(U);
       end();
     }
+    return p.x > 0 && p.x < 99;
   });
 }

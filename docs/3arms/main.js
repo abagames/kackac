@@ -21,10 +21,10 @@ let a, x;
 function update() {
   const r = 0.01;
   if (!tc) {
-    a = map(3, _ => [-PI / 2, 0, rnds(r)]);
+    a = range(3).map(_ => [-PI / 2, 0, rnds(r)]);
     x = 50;
   }
-  map(a, (b, i) => {
+  a.map((b, i) => {
     col = [R, G, B][i];
     bar(50, 50, 16, 3 + i, b[0], -i);
     b[0] += b[1] += b[2] / (4 - i);
