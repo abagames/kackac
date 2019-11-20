@@ -27,3 +27,11 @@ tc||(p=vec(50,85),j=a=h=i=0),h+i<=0&&(h=199,i=rnd(9,99)),col=B,rect(0,90,h,9),re
 ```
 tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
 ```
+
+[balbou](https://abagames.github.io/kackac/index.html?balbou)
+
+[![balbou screenshot](docs/balbou/screenshot.gif)](https://abagames.github.io/kackac/index.html?balbou)
+
+```
+tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
+```
