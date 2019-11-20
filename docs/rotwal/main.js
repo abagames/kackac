@@ -25,7 +25,7 @@ function update() {
     r = vec(rnd(9, 90));
     l = 0;
     a = rnd(PI * 2);
-    m = rnd(-0.1, 0.1) * df;
+    m = rnds(0.1) * df;
   }
   col = G;
   box((p = vec(50, 70)), 7, 7);

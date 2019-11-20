@@ -1971,6 +1971,8 @@ w
   const sin = Math.sin;
   const cos = Math.cos;
   const atan2 = Math.atan2;
+  const sqrt = Math.sqrt;
+  const pow = Math.pow;
   const floor = Math.floor;
   const round = Math.round;
   const ceil = Math.ceil;
@@ -2049,14 +2051,14 @@ w
   function vec(x, y) {
       return new Vector(x, y);
   }
-  function rnd(lowOrHigh, high) {
+  function rnd(lowOrHigh = 1, high) {
       return random.get(lowOrHigh, high);
   }
-  function rndi(lowOrHigh, high) {
+  function rndi(lowOrHigh = 2, high) {
       return random.getInt(lowOrHigh, high);
   }
-  function rnds() {
-      return random.getPlusOrMinus();
+  function rnds(lowOrHigh = 1, high) {
+      return random.get(lowOrHigh, high) * random.getPlusOrMinus();
   }
   class inp {
   }
@@ -2108,11 +2110,15 @@ w
       init$5(init$6, _update$1, loopOptions);
   }
   function init$6() {
-      if (typeof description !== "undefined" && description() != null) {
+      if (typeof description !== "undefined" &&
+          description() != null &&
+          description().trim().length > 0) {
           isNoTitle = false;
           seed += getHash(description());
       }
-      if (typeof title !== "undefined" && title() != null) {
+      if (typeof title !== "undefined" &&
+          title() != null &&
+          title().trim().length > 0) {
           isNoTitle = false;
           document.title = title();
       }
@@ -2242,9 +2248,7 @@ w
       const minifiedCode = Terser.minify(update.toString(), { mangle: false })
           .code.slice(18, -1)
           .replace(/(var |let |const )/g, "");
-      minifiedCode.match(/(.{1,256})/g).map(c => {
-          console.log(c);
-      });
+      console.log(minifiedCode);
       console.log(`${minifiedCode.length} letters`);
   }
   function addCapitalVariables() {
@@ -2357,12 +2361,14 @@ w
   exports.line = line;
   exports.map = map;
   exports.play = play;
+  exports.pow = pow;
   exports.rect = rect;
   exports.rnd = rnd;
   exports.rndi = rndi;
   exports.rnds = rnds;
   exports.round = round;
   exports.sin = sin;
+  exports.sqrt = sqrt;
   exports.vec = vec;
   exports.wrap = wrap;
 

@@ -4,13 +4,15 @@ declare let df: number; // difficulty
 declare let scr: number; // score
 
 declare const PI: number;
-declare const abs: (x: number) => number;
-declare const sin: (x: number) => number;
-declare const cos: (x: number) => number;
+declare const abs: (v: number) => number;
+declare const sin: (v: number) => number;
+declare const cos: (v: number) => number;
 declare const atan2: (y: number, x: number) => number;
-declare const floor: (x: number) => number;
-declare const round: (x: number) => number;
-declare const ceil: (x: number) => number;
+declare const pow: (b: number, e: number) => number;
+declare const sqrt: (v: number) => number;
+declare const floor: (v: number) => number;
+declare const round: (v: number) => number;
+declare const ceil: (v: number) => number;
 
 declare function clamp(v: number, low?: number, high?: number): number;
 declare function wrap(v: number, low: number, high: number): number;
@@ -92,9 +94,9 @@ declare function vec(x?: number | VectorLike, y?: number): Vector;
 // Return random number
 declare function rnd(lowOrHigh?: number, high?: number): number;
 // Return random integer
-declare function rndi(lowOrHigh: number, high?: number): number;
-// Return 1 or -1
-declare function rnds(): number;
+declare function rndi(lowOrHigh?: number, high?: number): number;
+// Return plus or minus random number
+declare function rnds(lowOrHigh?: number, high?: number): number;
 
 // Input
 declare class inp {

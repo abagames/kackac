@@ -21,7 +21,7 @@ let a, x;
 function update() {
   const r = 0.01;
   if (!tc) {
-    a = map(3, _ => [-PI / 2, 0, rnd(-r, r)]);
+    a = map(3, _ => [-PI / 2, 0, rnds(r)]);
     x = 50;
   }
   map(a, (b, i) => {
@@ -30,7 +30,7 @@ function update() {
     b[0] += b[1] += b[2] / (4 - i);
     b[1] *= 0.95;
     if (rnd() < r) {
-      b[2] = rnd(-r, r) * df;
+      b[2] = rnds(r) * df;
     }
   });
   col = Y;

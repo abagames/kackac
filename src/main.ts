@@ -16,6 +16,8 @@ export const abs = Math.abs;
 export const sin = Math.sin;
 export const cos = Math.cos;
 export const atan2 = Math.atan2;
+export const sqrt = Math.sqrt;
+export const pow = Math.pow;
 export const floor = Math.floor;
 export const round = Math.round;
 export const ceil = Math.ceil;
@@ -122,16 +124,16 @@ export function vec(x?: number | VectorLike, y?: number) {
   return new Vector(x, y);
 }
 
-export function rnd(lowOrHigh?: number, high?: number) {
+export function rnd(lowOrHigh: number = 1, high?: number) {
   return random.get(lowOrHigh, high);
 }
 
-export function rndi(lowOrHigh: number, high?: number) {
+export function rndi(lowOrHigh: number = 2, high?: number) {
   return random.getInt(lowOrHigh, high);
 }
 
-export function rnds() {
-  return random.getPlusOrMinus();
+export function rnds(lowOrHigh: number = 1, high?: number) {
+  return random.get(lowOrHigh, high) * random.getPlusOrMinus();
 }
 
 export class inp {
@@ -194,11 +196,19 @@ function onLoad() {
 }
 
 function init() {
-  if (typeof description !== "undefined" && description() != null) {
+  if (
+    typeof description !== "undefined" &&
+    description() != null &&
+    description().trim().length > 0
+  ) {
     isNoTitle = false;
     seed += getHash(description());
   }
-  if (typeof title !== "undefined" && title() != null) {
+  if (
+    typeof title !== "undefined" &&
+    title() != null &&
+    title().trim().length > 0
+  ) {
     isNoTitle = false;
     document.title = title();
   }
@@ -345,9 +355,7 @@ function showScript() {
   const minifiedCode = Terser.minify(update.toString(), { mangle: false })
     .code.slice(18, -1)
     .replace(/(var |let |const )/g, "");
-  minifiedCode.match(/(.{1,256})/g).map(c => {
-    console.log(c);
-  });
+  console.log(minifiedCode);
   console.log(`${minifiedCode.length} letters`);
 }
 
