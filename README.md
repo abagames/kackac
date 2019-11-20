@@ -35,3 +35,11 @@ tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,5
 ```
 tc||(a=map(3,_=>[-PI/2,0,rnds(.01)]),x=50),map(a,(b,i)=>{col=[R,G,B][i],bar(50,50,16,3+i,b[0],-i),b[0]+=b[1]+=b[2]/(4-i),b[1]*=.95,rnd()<.01&&(b[2]=rnds(.01)*df)}),col=Y;p=clamp(inp.p.x,0,99);line(p,58,x,58)&&(play(E),end()),scr+=abs(p-x),x+=(p-x)/7
 ```
+
+[jujmp](https://abagames.github.io/kackac/index.html?jujmp)
+
+[![jujmp screenshot](docs/jujmp/screenshot.gif)](https://abagames.github.io/kackac/index.html?jujmp)
+
+```
+tc||(p=vec(50,50),v=vec(),w=[vec(50,70)],j=m=d=1),p.add(v),v.y+=inp.ip?.05:.1;s=(p.y<30?.1*(30-p.y):0)+.1*df;for(scr+=s,(d-=s)<0&&(d=rnd(99),w.push(vec(rnd(99),-9))),p.y+=s,col=B,w=w.filter(l=>(l.y+=s,box(l,33,7),l.y<99)),col=T;box(p,7,7);)p.y--,v.set(),m=1;col=G,box(p,7,7),inp.ijp&&(play(J),v.x=j*=-1,v.y=-3*m,m*=.7),p.y>99&&(play(E),end())
+```
