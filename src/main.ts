@@ -215,7 +215,7 @@ function init() {
   sss.init(seed);
   showScript();
   addCapitalVariables();
-  col = window["L"];
+  col = L;
   const sz = loopOptions.viewSize;
   terminalSize = { x: Math.floor(sz.x / 6), y: Math.floor(sz.y / 6) };
   terminal = new Terminal(terminalSize);
@@ -370,12 +370,6 @@ function addCapitalVariables() {
   }
 }
 
-function setFillStyleFromCol() {
-  const fill = capitalLetterStrings[col];
-  const f = text.rgbObjects[text.colorChars.indexOf(fill)];
-  view.context.fillStyle = `rgb(${f.r},${f.g},${f.b})`;
-}
-
 function drawRect(
   isAlignCenter: boolean,
   x: number | VectorLike,
@@ -435,10 +429,18 @@ function addRect(
   const size = { x: Math.floor(width), y: Math.floor(height) };
   let rect = { pos, size, color: col };
   const collision = checkRects(rect);
-  (isAddingToTmp ? tmpRects : rects).push(rect);
-  setFillStyleFromCol();
-  view.context.fillRect(pos.x, pos.y, size.x, size.y);
+  if (!(col & T)) {
+    (isAddingToTmp ? tmpRects : rects).push(rect);
+    setFillStyleFromCol();
+    view.context.fillRect(pos.x, pos.y, size.x, size.y);
+  }
   return collision;
+}
+
+function setFillStyleFromCol() {
+  const fill = capitalLetterStrings[col];
+  const f = text.rgbObjects[text.colorChars.indexOf(fill)];
+  view.context.fillStyle = `rgb(${f.r},${f.g},${f.b})`;
 }
 
 function concatTmpRects() {
