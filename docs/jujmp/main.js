@@ -17,8 +17,6 @@ function options() {
   };
 }
 
-let p, v, w, j, m, d;
-
 function update() {
   if (!tc) {
     p = vec(50, 50);
@@ -28,7 +26,7 @@ function update() {
   }
   p.add(v);
   v.y += inp.ip ? 0.05 : 0.1;
-  const s = (p.y < 30 ? (30 - p.y) * 0.1 : 0) + df * 0.1;
+  s = (p.y < 30 ? (30 - p.y) * 0.1 : 0) + df * 0.1;
   scr += s;
   if ((d -= s) < 0) {
     d = rnd(99);

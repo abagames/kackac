@@ -16,8 +16,6 @@ function options() {
   };
 }
 
-let p, j, a, v, h, i;
-
 function update() {
   if (!tc) {
     p = vec(50, 85);
@@ -31,7 +29,7 @@ function update() {
   rect(0, 90, h, 9);
   rect(h + i, 90, 200, 9);
   col = G;
-  const c = box(p, 9, 9);
+  c = box(p, 9, 9);
   if (p.x < 0 || p.y > 99) {
     play(U);
     end();
@@ -54,7 +52,7 @@ function update() {
       v = vec(4).rotate(a);
     }
   }
-  const s = clamp(p.x - 50, 0, 99) * 0.1 + df;
+  s = clamp(p.x - 50, 0, 99) * 0.1 + df;
   p.x -= s;
   h -= s;
   scr += s;

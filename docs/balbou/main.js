@@ -16,8 +16,6 @@ function options() {
   };
 }
 
-let b, x;
-
 function update() {
   if (!tc) {
     b = [];
@@ -29,8 +27,8 @@ function update() {
   box((x = inp.p.x), 90, 20, 10);
   col = P;
   b = b.filter(c => {
-    const p = c.p;
-    const v = c.v;
+    p = c.p;
+    v = c.v;
     p.add(v);
     v.y += 0.02 * df;
     v.mul(0.99);

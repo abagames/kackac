@@ -16,10 +16,8 @@ function options() {
   };
 }
 
-let a, x;
-
 function update() {
-  const r = 0.01;
+  r = 0.01;
   if (!tc) {
     a = range(3).map(_ => [-PI / 2, 0, rnds(r)]);
     x = 50;
@@ -34,7 +32,7 @@ function update() {
     }
   });
   col = Y;
-  const p = clamp(inp.p.x, 0, 99);
+  p = clamp(inp.p.x, 0, 99);
   if (line(p, 58, x, 58)) {
     play(E);
     end();

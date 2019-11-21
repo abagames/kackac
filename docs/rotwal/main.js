@@ -15,8 +15,6 @@ function options() {
   };
 }
 
-let r, l, a, m, p, b;
-
 function update() {
   if (!tc) {
     r = vec(0, 99);
@@ -33,7 +31,7 @@ function update() {
   col = B;
   bar(p, 9, 5, b + PI / 2);
   col = R;
-  const c = bar(r, l, 4, a, 0);
+  c = bar(r, l, 4, a, 0);
   if (c & B) {
     play(C);
     r.y = 99;
