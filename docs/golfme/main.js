@@ -25,7 +25,7 @@ function update() {
   }
   if (h + i <= 0) {
     h = 199;
-    i = rnd(9, 99);
+    i = rnd(50, 150);
   }
   col = B;
   rect(0, 90, h, 9);
