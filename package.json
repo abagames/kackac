@@ -1,7 +1,7 @@
 {
   "name": "kackac",
   "version": "1.0.0",
-  "description": "Kak-kak games",
+  "description": "Kac-kac games",
   "scripts": {
     "watch_games": "light-server -s docs -w \"docs/**/* # # reload\"",
     "watch_lib": "rollup -c -w",
