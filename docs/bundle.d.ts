@@ -1,22 +1,14 @@
-declare let col: number; // color
-declare let tc: number; // ticks
-declare let df: number; // difficulty
-declare let scr: number; // score
+// ticks
+declare let tc: number;
+// difficulty (Starts from 1, increments by a minute)
+declare let df: number;
 
-declare const PI: number;
-declare const abs: (v: number) => number;
-declare const sin: (v: number) => number;
-declare const cos: (v: number) => number;
-declare const atan2: (y: number, x: number) => number;
-declare const pow: (b: number, e: number) => number;
-declare const sqrt: (v: number) => number;
-declare const floor: (v: number) => number;
-declare const round: (v: number) => number;
-declare const ceil: (v: number) => number;
-
-declare function clamp(v: number, low?: number, high?: number): number;
-declare function wrap(v: number, low: number, high: number): number;
-declare function range(v: number): number[];
+// color
+// 'R'ed, 'B'lue, 'G'reen, 'P'urple, 'Y'ellow, 'C'yan
+// b'L'ack, 'W'hite, 'T'ransparent
+declare let col: number;
+// score
+declare let scr: number;
 
 // End game
 declare function end(): void;
@@ -96,7 +88,7 @@ declare function rndi(lowOrHigh?: number, high?: number): number;
 // Return plus or minus random number
 declare function rnds(lowOrHigh?: number, high?: number): number;
 
-// Input
+// Input (mouse, touch, keyboard)
 declare class inp {
   static p: Vector; // Pointer position
   static ip: boolean; // is pressed
@@ -107,6 +99,20 @@ declare class inp {
 // Play sound
 // 'C'oin, 'L'aser, 'E'xplosion, 'P'ower-up, 'H'it, 'J'ump, 'S'elect, l'U'cky
 declare function play(type: number);
+
+declare const PI: number;
+declare function abs(v: number): number;
+declare function sin(v: number): number;
+declare function cos(v: number): number;
+declare function atan2(y: number, x: number): number;
+declare function pow(b: number, e: number): number;
+declare function sqrt(v: number): number;
+declare function floor(v: number): number;
+declare function round(v: number): number;
+declare function ceil(v: number): number;
+declare function clamp(v: number, low?: number, high?: number): number;
+declare function wrap(v: number, low: number, high: number): number;
+declare function range(v: number): number[];
 
 declare interface Vector {
   x: number;
