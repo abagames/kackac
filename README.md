@@ -51,3 +51,11 @@ tc||(p=vec(50,50),v=vec(),w=[vec(50,70)],j=m=d=1),p.add(v),v.y+=inp.ip?.05:.1;s=
 ```
 tc||(b=[],d=y=p=j=0),0===j&&inp.ip&&(play(H),j=c=1),col=C,j>0?(j<10&&(col=B),j++>30&&(j=0)):p+=.1,box(50+30*sin(p),(j<1?0:j<10?10*j:5*(30-j))-40,5,99),s=(y>50?.1*(y-50):0)+.1*df+.03*j,y=99,col=R,b=b.filter(a=>{if(a.p.x=a.c+sin(a.a+=a.v)*a.r,a.p.y-=s,a.p.y<y&&(y=a.p.y),a.p.y<0&&(play(U),end()),!(box(a.p,a.w,7)&B))return!0;play(L),scr+=c++}),(d-=s)<0&&(z=105,range(rndi(1,5)).map(i=>{b.push({p:vec(0,z),c:rnd(30,70),a:rnd(2*PI),v:rnd(.01,.1),r:rnd(9,30),w:rnd(20,40)}),z+=7,d+=10}),d+=rnd(99))
 ```
+
+[zartan](https://abagames.github.io/kackac/index.html?zartan)
+
+[![zartan screenshot](docs/zartan/screenshot.gif)](https://abagames.github.io/kackac/index.html?zartan)
+
+```
+tc||(n=[],p=vec(99,d=9),v=vec(),a=z=null),s=(p.x>30?.1*(p.x-30):0)+.1*df,scr+=s,p.x-=s,v.y+=.02,v.y<0&&p.y<0&&(v.y*=-1),p.y>99&&(play(U),end()),v.mul(.99),p.add(v),col=G,box(p,7,7),o=99,n.map(m=>{q=abs(m.y-p.y),m.x>p.x&&q<o&&(o=q,z=m)}),col=C,z&&(box(z,9,9),inp.ijp&&(play(S),a=z)),inp.ip&&a&&(b=vec(a).sub(p).div(199),v.add(b),line(p,a)),inp.ijr&&(a=null),(d-=s)<0&&(d+=rnd(9,66),n.push(vec(99,rnd(66)))),col=L,n=n.filter(m=>(m.x-=s,box(m,5,5),m.x>0))
+```
