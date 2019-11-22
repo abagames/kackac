@@ -28,15 +28,25 @@ export class Vector {
     return this;
   }
 
-  add(v: VectorLike) {
-    this.x += v.x;
-    this.y += v.y;
+  add(x: number | VectorLike, y?: number) {
+    if (isVectorLike(x)) {
+      this.x += x.x;
+      this.y += x.y;
+      return this;
+    }
+    this.x += x;
+    this.y += y;
     return this;
   }
 
-  sub(v: VectorLike) {
-    this.x -= v.x;
-    this.y -= v.y;
+  sub(x: number | VectorLike, y?: number) {
+    if (isVectorLike(x)) {
+      this.x -= x.x;
+      this.y -= x.y;
+      return this;
+    }
+    this.x -= x;
+    this.y -= y;
     return this;
   }
 

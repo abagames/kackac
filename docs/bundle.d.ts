@@ -113,8 +113,8 @@ declare interface Vector {
   y: number;
   constructor(x?: number | VectorLike, y?: number);
   set(x?: number | VectorLike, y?: number): this;
-  add(v: VectorLike): this;
-  sub(v: VectorLike): this;
+  add(x?: number | VectorLike, y?: number): this;
+  sub(x?: number | VectorLike, y?: number): this;
   mul(v: number): this;
   div(v: number): this;
   clamp(xLow: number, xHigh: number, yLow: number, yHigh: number): this;
