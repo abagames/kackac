@@ -60,6 +60,9 @@ function update() {
       .div(199);
     v.add(b);
     line(p, a);
+    if (a.x < 0) {
+      a = null;
+    }
   }
   if (inp.ijr) {
     a = null;
