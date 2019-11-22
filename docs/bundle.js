@@ -44,14 +44,24 @@
           this.y = y;
           return this;
       }
-      add(v) {
-          this.x += v.x;
-          this.y += v.y;
+      add(x, y) {
+          if (isVectorLike(x)) {
+              this.x += x.x;
+              this.y += x.y;
+              return this;
+          }
+          this.x += x;
+          this.y += y;
           return this;
       }
-      sub(v) {
-          this.x -= v.x;
-          this.y -= v.y;
+      sub(x, y) {
+          if (isVectorLike(x)) {
+              this.x -= x.x;
+              this.y -= x.y;
+              return this;
+          }
+          this.x -= x;
+          this.y -= y;
           return this;
       }
       mul(v) {
