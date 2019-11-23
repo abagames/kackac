@@ -13,6 +13,8 @@ declare let scr: number;
 // End game
 declare function end(): void;
 
+// Draw functions return a color bit pattern of overlapping other rectangles.
+
 // Draw rectangle
 declare function rect(
   x: number,
