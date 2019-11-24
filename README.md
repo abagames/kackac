@@ -59,3 +59,11 @@ tc||(b=[],d=y=p=j=0),0===j&&inp.ip&&(play(H),j=c=1),col=C,j>0?(j<10&&(col=B),j++
 ```
 tc||(n=[],p=vec(99,d=9),v=vec(),a=z=null),s=(p.x>30?.1*(p.x-30):0)+.1*df,scr+=s,p.x-=s,v.y+=.02,v.y<0&&p.y<0&&(v.y*=-1),p.y>99&&(play(U),end()),v.mul(.99),p.add(v),col=G,box(p,7,7),o=99,n.map(m=>{q=abs(m.y-p.y),m.x>p.x&&q<o&&(o=q,z=m)}),col=C,z&&(box(z,9,9),inp.ijp&&(play(S),a=z)),inp.ip&&a&&(b=vec(a).sub(p).div(199),v.add(b),line(p,a),a.x<0&&(a=null)),inp.ijr&&(a=null),(d-=s)<0&&(d+=rnd(9,66),n.push(vec(99,rnd(66)))),col=L,n=n.filter(m=>(m.x-=s,box(m,5,5),m.x>0))
 ```
+
+[enqbox](https://abagames.github.io/kackac/?enqbox)
+
+[![enqbox screenshot](docs/enqbox/screenshot.gif)](https://abagames.github.io/kackac/?enqbox)
+
+```
+tc||(r=d=h=0,b=vec(50,50),v=vec()),s=.05*df,r+=inp.ip?s:-s,[R,G,B,P].map((c,i)=>{if(h!=i&&(a=r+i*PI/2,p=vec(50,50).addAngle(a,30),col=c,a+=PI/2,bar(p,50,5,a),d&c)){for(f=vec(v).rotate(-a),f.x=0,f.y=clamp(-2.7*f.y,1,4),f.rotate(a),v.add(f),f.normalize(),col=T;box(b,7,7)&c;b.add(f));h=i,play(C),scr++}}),b.add(v),v.y+=.02*df,v.mul(.99),col=C,d=box(b,7,7),b.isInRect(0,0,99,99)||(play(E),end())
+```
