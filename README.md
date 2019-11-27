@@ -67,3 +67,11 @@ tc||(n=[],p=vec(99,d=9),v=vec(),a=z=null),s=(p.x>30?.1*(p.x-30):0)+.1*df,scr+=s,
 ```
 tc||(r=d=h=0,b=vec(50,50),v=vec()),s=.05*df,r+=inp.ip?s:-s,[R,G,B,P].map((c,i)=>{if(h!=i&&(a=r+i*PI/2,p=vec(50,50).addAngle(a,30),col=c,a+=PI/2,bar(p,50,5,a),d&c)){for(f=vec(v).rotate(-a),f.x=0,f.y=clamp(-2.7*f.y,1,4),f.rotate(a),v.add(f),f.normalize(),col=T;box(b,7,7)&c;b.add(f));h=i,play(C),scr++}}),b.add(v),v.y+=.02*df,v.mul(.99),col=C,d=box(b,7,7),b.isInRect(0,0,99,99)||(play(E),end())
 ```
+
+[exhinh](https://abagames.github.io/kackac/?exhinh)
+
+[![exhinh screenshot](docs/exhinh/screenshot.gif)](https://abagames.github.io/kackac/?exhinh)
+
+```
+tc||(d=[Y,L,R].map(c=>({p:vec(rnd(9,90),rnd(9,90)),v:vec(1).rotate(rnd(2*PI)),c:c,s:1})),z=5,r=1,t=0),inp.ijp&&(r=1),d=d.filter(e=>{if(c=e.c,p=e.p,v=e.v,col=c,l=box(p,7,7),v.mul(e.s),p.add(v),c==Y)y=p;else if(c==L)b=p;else if(c===C){if(inp.ip||(f=vec(b).sub(p),f.div(pow(f.length,2)).mul(7),v.add(f)),l&L)return play(S),scr+=r++,!1;l&R&&(play(U),end())}return a=-1,p.x<0&&(a=PI),p.x>99&&(a=0),p.y<0&&(a=PI/2*3),p.y>99&&(a=PI/2),a>=0&&(m=v.getAngle(),o=wrap(m-a,-PI,PI),abs(o)<PI/2&&(l=v.length,e.v.set().addAngle(m+PI-2*o+rnds(.5),l))),!0}),(inp.ip&&tc%(floor(10/df)+1)==0&&tc>20||t>300)&&(play(L),d.push({p:vec(y),v:vec(rnd(4)).rotate(rnd(2*PI)),c:C,s:.9}),t=0),t++
+```
