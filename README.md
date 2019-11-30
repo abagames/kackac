@@ -74,4 +74,13 @@ tc||(r=d=h=0,b=vec(50,50),v=vec()),s=.05*df,r+=inp.ip?s:-s,[R,G,B,P].map((c,i)=>
 
 ```
 tc||(d=[Y,L,R].map(c=>({p:vec(rnd(9,90),rnd(9,90)),v:vec(1).rotate(rnd(2*PI)),c:c,s:1})),z=5,r=1,t=0),inp.ijp&&(r=1),d=d.filter(e=>{if(c=e.c,p=e.p,v=e.v,col=c,l=box(p,7,7),v.mul(e.s),p.add(v),c==Y)y=p;else if(c==L)b=p;else if(c===C){if(inp.ip||(f=vec(b).sub(p),f.div(pow(f.length,2)).mul(7),v.add(f)),l&L)return play(S),scr+=r++,!1;l&R&&(play(U),end())}return a=-1,p.x<0&&(a=PI),p.x>99&&(a=0),p.y<0&&(a=PI/2*3),p.y>99&&(a=PI/2),a>=0&&(m=v.getAngle(),o=wrap(m-a,-PI,PI),abs(o)<PI/2&&(l=v.length,e.v.set().addAngle(m+PI-2*o+rnds(.5),l))),!0}),(inp.ip&&tc%(floor(10/df)+1)==0&&tc>20||t>300)&&(play(L),d.push({p:vec(y),v:vec(rnd(4)).rotate(rnd(2*PI)),c:C,s:.9}),t=0),t++
+
+```
+
+[lland](https://abagames.github.io/kackac/?lland)
+
+[![lland screenshot](docs/lland/screenshot.gif)](https://abagames.github.io/kackac/?lland)
+
+```
+if(tc||(m=range(9).map(i=>({y:90-i,c:R})),y=9,v=o=c=i=j=k=l=0),m.map((n,i)=>{col=n.c,rect(wrap(13*i+o-13,-13,104),n.y,13,99)}),col=G,p=box(25,y,5,5),l>0){if(!inp.ip)return;l=0}o-=df,c-=df,c<0&&(n=m[wrap(i,0,9)],n.y=k>0?90:1==j?rnd(70,90):0==j?z=rnd(40,70):rnd(40,90),j--,k--,j<0?(n.c=C,j=rndi(9,12),k=1):n.c=R,i++,c+=13),inp.ijp&&(play(H),v-=.4),inp.ip&&(v-=.2),v+=.1,v*=.99,y<0&&v<0&&(v*=-1),y+=v*df,p&C?(play(S),scr++,l=1,v=0,y=z-3,m.map(n=>n.c=R)):p&R&&(play(E),end()),col=T,rect(0,0,1,99)&C&&(play(E),end())
 ```
