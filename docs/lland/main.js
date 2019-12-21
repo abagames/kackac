@@ -53,7 +53,7 @@ function update() {
     if (j < 0) {
       n.c = C;
       j = rndi(9, 12);
-      k = 1;
+      k = 2;
     } else {
       n.c = R;
     }
