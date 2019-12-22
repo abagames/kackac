@@ -82,5 +82,5 @@ tc||(d=[Y,L,R].map(c=>({p:vec(rnd(9,90),rnd(9,90)),v:vec(1).rotate(rnd(2*PI)),c:
 [![lland screenshot](docs/lland/screenshot.gif)](https://abagames.github.io/kackac/?lland)
 
 ```
-if(tc||(m=range(9).map(i=>({y:90-i,c:R})),y=9,v=o=c=i=j=k=l=0),m.map((n,i)=>{col=n.c,rect(wrap(13*i+o-13,-13,104),n.y,13,99)}),col=G,p=box(25,y,5,5),l>0){if(!inp.ip)return;l=0}o-=df,c-=df,c<0&&(n=m[wrap(i,0,9)],n.y=k>0?90:1==j?rnd(70,90):0==j?z=rnd(40,70):rnd(40,90),j--,k--,j<0?(n.c=C,j=rndi(9,12),k=):n.c=R,i++,c+=13),inp.ijp&&(play(H),v-=.4),inp.ip&&(v-=.2),v+=.1,v*=.99,y<0&&v<0&&(v*=-1),y+=v*df,p&C?(play(S),scr++,l=1,v=0,y=z-3,m.map(n=>n.c=R)):p&R&&(play(E),end()),col=T,rect(0,0,1,99)&C&&(play(E),end())
+if(tc||(m=range(9).map(i=>({y:90-i,c:R})),y=9,v=o=c=i=j=k=l=0),m.map((n,i)=>{col=n.c,rect(wrap(13*i+o-13,-13,104),n.y,13,99)}),col=G,p=box(25,y,5,5),l>0){if(!inp.ip)return;l=0}o-=df,c-=df,c<0&&(n=m[wrap(i,0,9)],n.y=k>0?90:1==j?rnd(70,90):0==j?z=rnd(40,70):rnd(40,90),j--,k--,j<0?(n.c=C,j=rndi(9,12),k=2):n.c=R,i++,c+=13),inp.ijp&&(play(H),v-=.4),inp.ip&&(v-=.2),v+=.1,v*=.99,y<0&&v<0&&(v*=-1),y+=v*df,p&C?(play(S),scr++,l=1,v=0,y=z-3,m.map(n=>n.c=R)):p&R&&(play(E),end()),col=T,rect(0,0,1,99)&C&&(play(E),end())
 ```
